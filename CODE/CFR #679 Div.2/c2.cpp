@@ -16,7 +16,7 @@ int main() {
 
 	int n;
 	scanf("%d", &n);
-	rep(i, 1, n) {
+	rep(i, 1, n) {//
 		int tmp;
 		scanf("%d", &tmp);
 		rep(j, 1, 6) {
