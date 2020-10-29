@@ -4,7 +4,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 using namespace std;
 
-const int N = 1e5 + 10;
+const int N = 2e5 + 10;
 
 int fa[N << 1], sz[N << 1];
 int n, q;
@@ -13,7 +13,7 @@ int flag;
 
 struct STACK{
 	int from, to, szflag;
-} sta[N];
+} sta[N << 1];
 
 int find_fa(int x) {
 	return x == fa[x] ? x : find_fa(fa[x]);
