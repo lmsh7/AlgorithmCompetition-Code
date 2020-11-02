@@ -1,46 +1,53 @@
 #include <bits/stdc++.h>
 #define rep(i, a, b) for(int i = (a); i <= (b); ++i)
 using namespace std;
+ 
+ 
+ 
 typedef long long ll;
 typedef unsigned long long ull;
-
+const int N = 3e5 + 10;
 const ll P = 998244353;
-
-ll sum[300005];
-ll ans = 0;
-ll a[300005];
-
-bool cmp(ll x, ll y) {
-	return x > y;
+int a[N], b[N];
+ 
+ll qpow(ll x, ll y) {
+	ll res = 1;
+    for (; y; y >>= 1, x = 1LL * x * x % P)
+        if (y & 1) res = 1LL * res * x % P;
+    return res;
 }
-
+ 
+ll inv(int x) {
+	ll f2 = 1;
+	for(int i = 2; i <= x; ++i) {
+		f2 *= i;
+		f2 %= P;
+	}
+	return qpow(f2, P - 2);
+	// return f2;
+}
+ 
 int main() {
 	int n;
 	cin >> n;
-	rep(i, 1, 2 * n) {
+	ll f1 = 1;
+	for(int i = n + 1; i <= 2 * n; ++i) {
+		f1 *= i;
+		f1 %= P;
+	}
+	ll sumR = 0;
+	ll sumL = 0;
+	for(int i = 1; i <= 2 * n; ++i) {
 		cin >> a[i];
-		
-		// cout << sum[i]<<endl;
 	}
-	sort(a + 1, a + 2 * n + 1, cmp);
-	rep(i, 1, 2 * n) {
-		sum[i] = sum[i - 1] + a[i];
-	}
+	sort(a + 1, a + 2 * n + 1);
 	for(int i = 1; i <= n; ++i) {
-		ans += a[i] * n - sum[i + n] + sum[i];
-		cout <<sum[i + n] - sum[i]<<endl; 
-		// ans = (ans + ((a[i] % P) * (n % P)) % P - (sum[i + n] - sum[i]) % P + P) % P;
+		sumL += a[i];
 	}
 	for(int i = n + 1; i <= 2 * n; ++i) {
-		ans += sum[i - 1] - sum[i - n -1] - a[i] * n;
-		cout <<sum[i - 1] - sum[i - n -1] - a[i] * n<<endl; 
-		// ans = (ans + (sum[i - 1] - sum[i - n -1]) % P - ((a[i] % P) * (n % P)) % P + P) % P;
+		sumR += a[i];
 	}
-	cout << (ans * 2) % P<<endl;
+	// cout << (sumR - sumL) * (f1 / inv(n));
+	cout << (1LL * (sumR - sumL + P) % P * (1LL * f1 % P * inv(n) % P) % P) % P;
 	return 0;
 }
-
-/*
-
-4294967294
-*/
